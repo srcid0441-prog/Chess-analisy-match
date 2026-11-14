@@ -1052,16 +1052,19 @@ if(!ehMelhor&&jogadoCp<600&&melhorCp>-400){
 if(quedaCp>=500)cat='capivarada';
 else if(quedaCp>=250&&ORDEM.indexOf(cat)<ORDEM.indexOf('erro'))cat='erro';
 }
-if(cat==='melhor'||cat==='excelente'){
+const quaseMelhor=cat==='melhor'||cat==='excelente'||(cat==='bom'&&queda<4);
+if(quaseMelhor){
 const seg=a.linhas.find((l)=>l.uci!==lance.uci);
 const unico=seg&&chance(jogadoCp)-chance(paraCp(seg.placar))>=10;
 let sacrificio=false;
-if(chance(jogadoCp)>=45&&chance(melhorCp)<97&&b.fim!=='mate'){
+const segCp=seg?paraCp(seg.placar):melhorCp;
+if(chance(jogadoCp)>=45&&chance(segCp)<97&&b.fim!=='mate'){
 const fz=fatos(partida.fens[i],lance.uci,i);
 const ganhoCapt=lance.capt?VAL[X.tipo(lance.capt)]:0;
 sacrificio=fz.perigo.length>0&&fz.perigo[0].ganho-ganhoCapt>=2;
 }
 if(sacrificio)cat='brilhante';
+else if(cat==='bom'){}
 else if(unico&&cat==='melhor'&&b.fim!=='mate')cat='otimo';
 }
 const precisao=Math.max(0,Math.min(100,103.1668*Math.exp(-0.04354*queda)-3.1669));
