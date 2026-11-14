@@ -1,0 +1,41 @@
+name: App Windows
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'app/**'
+      - 'index.html'
+      - 'en.html'
+      - '.github/workflows/app-windows.yml'
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Usa o site mais novo do repositorio (se tiver)
+        shell: pwsh
+        run: |
+          foreach ($f in 'index.html', 'en.html') {
+            if (Test-Path $f) { Copy-Item $f app/site/ -Force; Write-Host "copiado $f" }
+          }
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: app/src-tauri
+
+      - name: Instala o Tauri
+        run: cargo install tauri-cli --version "^2.0.0" --locked
+
+      - name: Gera o instalador
+        working-directory: app/src-tauri
+        run: cargo tauri build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Capivara-instalador-windows
+          path: app/src-tauri/target/release/bundle/nsis/*.exe
