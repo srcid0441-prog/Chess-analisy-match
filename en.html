@@ -2125,22 +2125,15 @@ if(android())return'In the browser’s ⋮ menu, tap Install app or Add to Home 
 return'In Brave, Chrome or Edge, click the install icon at the end of the address bar, or open the browser menu and choose Install Capivara.';
 }
 async function instalar(){
-if(pedido){
-const p=pedido;
-pedido=null;
-try{await p.prompt();await p.userChoice;}catch(e){}
-marcar();
-return;
-}
 location.href='baixar.html';
 }
 return{instalar,passos,temPedido:()=>!!pedido,instalado:sozinho};
 })();
 function htmlApp(){
 if(APP.instalado())return'<div class="cfg-linha"><span><b>App installed</b><small>You’re already using the Capivara app.</small></span></div>';
-const botao=APP.temPedido()?'<button type="button" class="botao" data-app="instalar">Install</button>':'';
+const botao='<button type="button" class="botao" data-app="instalar">Download</button>';
 return`<div class="cfg-linha"><span><b>Get the Capivara app</b><small>It gets its own icon on your home screen or desktop and opens full screen, on your phone and computer.</small></span>${botao}</div>`+
-(botao?'':`<p class="app-passos">${APP.passos()}</p>`)+'<p class="app-passos"><a href="baixar.html">Download page: Android, iPhone and Windows</a></p>';
+'';
 }
 const testeVoz=()=>(IDIOMA==='en'?'Hi! I am Capi, your chess coach.':'Hi! I’m Capi, your chess coach.');
 let dicaVozFechada=false;

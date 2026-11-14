@@ -2125,22 +2125,15 @@ if(android())return'No menu ⋮ do navegador, toque em Instalar app ou Adicionar
 return'No Brave, Chrome ou Edge, clique no ícone de instalar no fim da barra de endereço, ou abra o menu do navegador e escolha Instalar Capivara.';
 }
 async function instalar(){
-if(pedido){
-const p=pedido;
-pedido=null;
-try{await p.prompt();await p.userChoice;}catch(e){}
-marcar();
-return;
-}
 location.href='baixar.html';
 }
 return{instalar,passos,temPedido:()=>!!pedido,instalado:sozinho};
 })();
 function htmlApp(){
 if(APP.instalado())return'<div class="cfg-linha"><span><b>App instalado</b><small>Você já está usando o app do Capivara.</small></span></div>';
-const botao=APP.temPedido()?'<button type="button" class="botao" data-app="instalar">Instalar</button>':'';
+const botao='<button type="button" class="botao" data-app="instalar">Baixar</button>';
 return`<div class="cfg-linha"><span><b>Baixar o app do Capivara</b><small>Fica com ícone na tela inicial ou na área de trabalho e abre em tela cheia, no celular e no computador.</small></span>${botao}</div>`+
-(botao?'':`<p class="app-passos">${APP.passos()}</p>`)+'<p class="app-passos"><a href="baixar.html">Página de download: Android, iPhone e Windows</a></p>';
+'';
 }
 const testeVoz=()=>(IDIOMA==='en'?'Hi! I am Capi, your chess coach.':'Oi! Eu sou a Capi, sua treinadora de xadrez.');
 let dicaVozFechada=false;
