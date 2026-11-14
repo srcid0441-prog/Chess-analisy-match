@@ -1,0 +1,18 @@
+[package]
+name = "capivara"
+version = "1.0.0"
+description = "Capivara - análise de partidas de xadrez"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+open = "5"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
