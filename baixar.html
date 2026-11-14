@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#262421">
+<title>Baixar o Capivara · app para celular e Windows</title>
+<meta name="description" content="Baixe o Capivara, análise de xadrez de graça: app para Android, iPhone e Windows.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+  :root { --fundo: #302e2b; --painel: #262421; --cartao: #3a3835; --linha: #4a4743; --texto: #f0efed; --suave: #b4b2ad; --verde: #81b64c; --verde-sombra: #45753c; --verde-claro: #a3d160; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { min-height: 100vh; background: var(--fundo); color: var(--texto); font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 1040px; margin: 0 auto; padding: 18px 20px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  .marca img { width: 38px; height: 38px; }
+  .voltar { color: var(--suave); font-size: 15px; font-weight: 700; text-decoration: none; }
+  .voltar:hover { color: #fff; }
+  main { max-width: 1040px; margin: 0 auto; padding: 12px 20px 56px; }
+  .abre { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; padding: 26px 0 34px; }
+  .abre img { width: 120px; height: 120px; border-radius: 28px; background: var(--painel); box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+  h1 { margin: 0 0 8px; font-size: clamp(30px, 5vw, 46px); line-height: 1.05; letter-spacing: -.03em; }
+  .abre p { margin: 0; max-width: 56ch; color: var(--suave); font-size: 18px; }
+  .cartoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .cartao { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 22px; border-radius: 10px; background: var(--painel); border: 2px solid transparent; }
+  .cartao.seu { border-color: var(--verde); }
+  .selo { position: absolute; top: -12px; left: 18px; padding: 2px 10px; border-radius: 999px; background: var(--verde); color: #fff; font-size: 12.5px; font-weight: 800; }
+  .cartao h2 { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 21px; letter-spacing: -.01em; }
+  .cartao h2 svg { width: 28px; height: 28px; flex: none; color: var(--verde-claro); }
+  .cartao p { margin: 0; color: var(--suave); font-size: 15px; }
+  .passos { margin: 0; padding-left: 20px; color: var(--suave); font-size: 15px; }
+  .passos li { margin: 4px 0; }
+  .passos b { color: var(--texto); }
+  .botao { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; border: 0; border-radius: 8px; background: var(--verde); box-shadow: 0 4px 0 var(--verde-sombra); color: #fff; font: inherit; font-size: 17px; font-weight: 800; text-decoration: none; cursor: pointer; margin-top: auto; }
+  .botao:hover { background: var(--verde-claro); }
+  .botao:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--verde-sombra); }
+  .botao:focus-visible, .link:focus-visible, .voltar:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  .botao.cinza { background: #4b4844; box-shadow: 0 4px 0 #2f2d2a; }
+  .botao.cinza:hover { background: #5b5853; }
+  .botao svg { width: 20px; height: 20px; }
+  .nota { padding: 10px 12px; border-radius: 6px; background: rgba(255,255,255,.05); color: var(--suave); font-size: 13.5px; }
+  .link { background: none; border: 0; padding: 0; color: var(--verde-claro); font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .pronto { display: none; color: var(--verde-claro); font-weight: 700; }
+  .rodape { margin-top: 36px; color: var(--suave); font-size: 14px; }
+  @media (max-width: 860px) {
+    .cartoes { grid-template-columns: 1fr; }
+    .abre { grid-template-columns: 1fr; gap: 16px; padding-top: 10px; }
+    .abre img { width: 84px; height: 84px; border-radius: 20px; }
+    .cartao.seu { order: -1; }
+  }
+</style>
+</head>
+<body>
+<header class="topo">
+  <a class="marca" href="./"><img src="icons/icon-192.png" alt="" width="38" height="38">Capivara</a>
+  <a class="voltar" href="./">Abrir o site</a>
+</header>
+<main>
+  <section class="abre">
+    <img src="icons/icon-512.png" alt="Ícone do Capivara" width="120" height="120">
+    <div>
+      <h1>Baixe o Capivara</h1>
+      <p>A análise de xadrez de graça, agora com ícone próprio no celular e no computador. Abre em tela cheia e funciona até sem internet.</p>
+    </div>
+  </section>
+
+  <div class="cartoes">
+    <section class="cartao" id="c-android">
+      <h2><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 9h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1v2.5a1.5 1.5 0 0 1-3 0V18h-2v2.5a1.5 1.5 0 0 1-3 0V18H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1zM3.5 9A1.5 1.5 0 0 1 5 10.5v5a1.5 1.5 0 0 1-3 0v-5A1.5 1.5 0 0 1 3.5 9zm17 0a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-3 0v-5A1.5 1.5 0 0 1 20.5 9zM7.2 7.8a5 5 0 0 1 2.3-3.3L8.7 3.1a.4.4 0 1 1 .7-.4l.8 1.4a5.1 5.1 0 0 1 3.6 0l.8-1.4a.4.4 0 1 1 .7.4l-.8 1.4a5 5 0 0 1 2.3 3.3zM10 6.3a.7.7 0 1 0 0 1.4.7.7 0 0 0 0-1.4zm4 0a.7.7 0 1 0 0 1.4.7.7 0 0 0 0-1.4z"/></svg>Android</h2>
+      <p>Instala direto pelo navegador, sem loja e sem arquivo para baixar.</p>
+      <ol class="passos" id="passos-android" hidden>
+        <li>Abra esta página no <b>Chrome</b>, <b>Brave</b> ou <b>Samsung Internet</b>.</li>
+        <li>Toque no menu <b>⋮</b> e depois em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.</li>
+      </ol>
+      <span class="pronto" data-pronto>Instalado! Procure a capivara na tela inicial.</span>
+      <button type="button" class="botao" data-instalar>Instalar no Android</button>
+    </section>
+
+    <section class="cartao" id="c-iphone">
+      <h2><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.5 2-3.6a4.3 4.3 0 0 0-3.4-1.8c-1.4-.2-2.8.8-3.5.8s-1.9-.8-3.1-.8a4.6 4.6 0 0 0-3.9 2.4c-1.7 2.9-.4 7.2 1.2 9.5.8 1.1 1.7 2.4 2.9 2.4s1.6-.8 3-.8 1.8.8 3 .8 2-1.2 2.8-2.3a9.3 9.3 0 0 0 1.3-2.6 3.9 3.9 0 0 1-2.3-4zM14.1 5.5a4 4 0 0 0 .9-2.9 4.1 4.1 0 0 0-2.7 1.4 3.8 3.8 0 0 0-1 2.8 3.4 3.4 0 0 0 2.8-1.3z"/></svg>iPhone e iPad</h2>
+      <p>A Apple não deixa instalar com um toque, mas leva só três passos:</p>
+      <ol class="passos">
+        <li>Abra esta página no <b>Safari</b>.</li>
+        <li>Toque em <b>Compartilhar</b> (o quadrado com a seta para cima).</li>
+        <li>Escolha <b>Adicionar à Tela de Início</b> e toque em <b>Adicionar</b>.</li>
+      </ol>
+      <p class="nota">Pronto: o Capivara aparece na tela inicial como qualquer outro app.</p>
+    </section>
+
+    <section class="cartao" id="c-windows">
+      <h2><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.5l7.4-1v7H3zm8.3-1.1L21 3v8.5h-9.7zM3 12.5h7.4v7L3 18.5zm8.3 0H21V21l-9.7-1.4z"/></svg>Windows</h2>
+      <p>O jeito mais fácil é instalar pelo navegador: funciona em qualquer Windows e atualiza sozinho.</p>
+      <span class="pronto" data-pronto>Instalado! O Capivara já está no menu Iniciar.</span>
+      <button type="button" class="botao" data-instalar>Instalar pelo navegador</button>
+      <p class="nota" id="passos-pc" hidden>No Chrome, Edge ou Brave, clique no ícone de instalar no fim da barra de endereço, ou abra o menu do navegador e escolha <b>Instalar Capivara</b>.</p>
+      <p>Prefere um programa para instalar?</p>
+      <a class="botao cinza" href="https://github.com/srcid0441-prog/Chess-analisy-match/releases/latest/download/Capivara-Setup.exe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10.5L12 15l4.5-4.5M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Baixar instalador (.exe)</a>
+      <p class="nota">O programa ainda não tem assinatura digital. Se aparecer “O Windows protegeu o computador”, clique em <b>Mais informações → Executar assim mesmo</b>. Se o <b>Controle Inteligente de Aplicativos</b> bloquear, use o botão verde de cima.</p>
+    </section>
+  </div>
+
+  <p class="rodape">O Capivara é de graça e não pede cadastro. <a href="./">Voltar para o site</a></p>
+</main>
+<script>
+(function () {
+  var ua = navigator.userAgent || '';
+  var ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var android = /android/i.test(ua);
+  var seu = ios ? 'c-iphone' : android ? 'c-android' : /windows/i.test(ua) ? 'c-windows' : '';
+  if (seu) {
+    var c = document.getElementById(seu);
+    c.classList.add('seu');
+    var s = document.createElement('span'); s.className = 'selo'; s.textContent = 'O seu aparelho';
+    c.insertBefore(s, c.firstChild);
+  }
+  var pedido = null;
+  var instalado = function () {
+    try { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch (e) { return false; }
+  };
+  function mostrarPronto() {
+    document.querySelectorAll('[data-pronto]').forEach(function (e) { e.style.display = 'block'; });
+    document.querySelectorAll('[data-instalar]').forEach(function (b) { b.hidden = true; });
+  }
+  if (instalado()) mostrarPronto();
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); pedido = e; });
+  window.addEventListener('appinstalled', function () { pedido = null; mostrarPronto(); });
+  document.querySelectorAll('[data-instalar]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (pedido) {
+        var p = pedido; pedido = null;
+        p.prompt();
+        p.userChoice.then(function (r) { if (r && r.outcome === 'accepted') mostrarPronto(); });
+        return;
+      }
+      // sem a janelinha do navegador: mostra o passo a passo do proprio cartao
+      var passos = b.closest('.cartao').querySelector('#passos-android, #passos-pc');
+      if (passos) passos.hidden = false;
+    });
+  });
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(function () {});
+})();
+</script>
+</body>
+</html>

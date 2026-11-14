@@ -2132,13 +2132,7 @@ try{await p.prompt();await p.userChoice;}catch(e){}
 marcar();
 return;
 }
-abrirAba('config');
-setTimeout(()=>{
-const s=$('cfg-app');
-if(!s)return;
-if(s.scrollIntoView)s.scrollIntoView({block:'start',behavior:'smooth'});
-s.classList.remove('cfg-destaque');void s.offsetWidth;s.classList.add('cfg-destaque');
-},60);
+location.href='baixar.html';
 }
 return{instalar,passos,temPedido:()=>!!pedido,instalado:sozinho};
 })();
@@ -2146,7 +2140,7 @@ function htmlApp(){
 if(APP.instalado())return'<div class="cfg-linha"><span><b>App installed</b><small>You’re already using the Capivara app.</small></span></div>';
 const botao=APP.temPedido()?'<button type="button" class="botao" data-app="instalar">Install</button>':'';
 return`<div class="cfg-linha"><span><b>Get the Capivara app</b><small>It gets its own icon on your home screen or desktop and opens full screen, on your phone and computer.</small></span>${botao}</div>`+
-(botao?'':`<p class="app-passos">${APP.passos()}</p>`);
+(botao?'':`<p class="app-passos">${APP.passos()}</p>`)+'<p class="app-passos"><a href="baixar.html">Download page: Android, iPhone and Windows</a></p>';
 }
 const testeVoz=()=>(IDIOMA==='en'?'Hi! I am Capi, your chess coach.':'Hi! I’m Capi, your chess coach.');
 let dicaVozFechada=false;
@@ -3475,7 +3469,7 @@ const[cx,cy]=centro(sq);
 h+=`<use href="#pc-${p!==p.toLowerCase()?'w':'b'}${p.toLowerCase()}" class="pc" data-s="${sq}" x="${cx-25}" y="${cy-25}" width="50" height="50"/>`;
 }
 const av=v.avals[k];
-if(av&&av.linhas[0]){const mb=pos.lanceUci(av.linhas[0].uci);if(mb)h+=seta(mb.de,mb.para,'seta-melhor seta-analise');}
+if(av&&av.linhas[0]&&!v.livre){const mb=pos.lanceUci(av.linhas[0].uci);if(mb)h+=seta(mb.de,mb.para,'seta-melhor seta-analise');}
 if(l&&l.cat&&!v.livre){
 const[cx,cy]=centro(l.para);
 h+=`<svg class="selo" x="${cx+4}" y="${cy-29}" width="25" height="25" viewBox="-1 -1 22 22"><g class="selo-in"><circle cx="10" cy="10" r="10.7" fill="rgba(0,0,0,.3)"/>${desenhoIco(l.cat)}</g></svg>`;
