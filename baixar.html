@@ -12,6 +12,7 @@
 <style>
   :root { --fundo: #302e2b; --painel: #262421; --cartao: #3a3835; --linha: #4a4743; --texto: #f0efed; --suave: #b4b2ad; --verde: #81b64c; --verde-sombra: #45753c; --verde-claro: #a3d160; }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html, body { margin: 0; }
   body { min-height: 100vh; background: var(--fundo); color: var(--texto); font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
   a { color: inherit; }
@@ -98,7 +99,8 @@
       <button type="button" class="botao" data-instalar>Instalar pelo navegador</button>
       <p class="nota" id="passos-pc" hidden>No Chrome, Edge ou Brave, clique no ícone de instalar no fim da barra de endereço, ou abra o menu do navegador e escolha <b>Instalar Capivara</b>.</p>
       <p>Prefere um programa para instalar?</p>
-      <a class="botao cinza" href="https://github.com/srcid0441-prog/Chess-analisy-match/releases/latest/download/Capivara-Setup.exe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10.5L12 15l4.5-4.5M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Baixar instalador (.exe)</a>
+      <a class="botao cinza" id="baixar-exe" href="https://github.com/srcid0441-prog/Chess-analisy-match/releases/latest/download/Capivara-Setup.exe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10.5L12 15l4.5-4.5M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Baixar instalador (.exe)</a>
+      <p class="nota" id="exe-falta" hidden>O instalador .exe ainda está sendo preparado. Enquanto isso, use o botão verde de cima.</p>
       <p class="nota">O programa ainda não tem assinatura digital. Se aparecer “O Windows protegeu o computador”, clique em <b>Mais informações → Executar assim mesmo</b>. Se o <b>Controle Inteligente de Aplicativos</b> bloquear, use o botão verde de cima.</p>
     </section>
   </div>
@@ -140,6 +142,17 @@
       var passos = b.closest('.cartao').querySelector('#passos-android, #passos-pc');
       if (passos) passos.hidden = false;
     });
+  });
+  // se ainda nao existe instalador publicado, nao deixa o botao levar para uma pagina de erro do GitHub
+  fetch('https://api.github.com/repos/srcid0441-prog/Chess-analisy-match/releases/latest').then(function (r) {
+    if (r.ok) return r.json().then(function (j) {
+      if (!(j.assets || []).some(function (a) { return a.name === 'Capivara-Setup.exe'; })) throw new Error('sem exe');
+    });
+    throw new Error('sem release');
+  }).catch(function (e) {
+    if (e && e.name === 'TypeError') return;   // sem internet ou bloqueado: deixa o link como esta
+    document.getElementById('baixar-exe').hidden = true;
+    document.getElementById('exe-falta').hidden = false;
   });
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(function () {});
 })();
