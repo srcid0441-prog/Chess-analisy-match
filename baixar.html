@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#262421">
+<meta name="theme-color" content="#101914">
 <title>Baixar o Capivara · app para celular e Windows</title>
 <meta name="description" content="Baixe o Capivara, análise de xadrez de graça: app para Android, iPhone e Windows.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
-  :root { --fundo: #302e2b; --painel: #262421; --cartao: #3a3835; --linha: #4a4743; --texto: #f0efed; --suave: #b4b2ad; --verde: #81b64c; --verde-sombra: #45753c; --verde-claro: #a3d160; }
+  :root { --fundo: #15201b; --painel: #1d2b24; --cartao: #26372e; --linha: #314437; --texto: #eaf0e6; --suave: #a6b5a8; --verde: #e0a83a; --verde-sombra: #9c6f1c; --verde-claro: #f0bf5a; }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html, body { margin: 0; }
-  body { min-height: 100vh; background: var(--fundo); color: var(--texto); font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  body { min-height: 100vh; background: var(--fundo); color: var(--texto); font-family: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
   a { color: inherit; }
   .topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 1040px; margin: 0 auto; padding: 18px 20px; }
   .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
@@ -27,21 +27,21 @@
   h1 { margin: 0 0 8px; font-size: clamp(30px, 5vw, 46px); line-height: 1.05; letter-spacing: -.03em; }
   .abre p { margin: 0; max-width: 56ch; color: var(--suave); font-size: 18px; }
   .cartoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-  .cartao { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 22px; border-radius: 10px; background: var(--painel); border: 2px solid transparent; }
+  .cartao { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 22px; border-radius: 16px; background: var(--painel); border: 2px solid transparent; }
   .cartao.seu { border-color: var(--verde); }
-  .selo { position: absolute; top: -12px; left: 18px; padding: 2px 10px; border-radius: 999px; background: var(--verde); color: #fff; font-size: 12.5px; font-weight: 800; }
+  .selo { position: absolute; top: -12px; left: 18px; padding: 2px 10px; border-radius: 999px; background: var(--verde); color: #1f1606; font-size: 12.5px; font-weight: 800; }
   .cartao h2 { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 21px; letter-spacing: -.01em; }
   .cartao h2 svg { width: 28px; height: 28px; flex: none; color: var(--verde-claro); }
   .cartao p { margin: 0; color: var(--suave); font-size: 15px; }
   .passos { margin: 0; padding-left: 20px; color: var(--suave); font-size: 15px; }
   .passos li { margin: 4px 0; }
   .passos b { color: var(--texto); }
-  .botao { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; border: 0; border-radius: 8px; background: var(--verde); box-shadow: 0 4px 0 var(--verde-sombra); color: #fff; font: inherit; font-size: 17px; font-weight: 800; text-decoration: none; cursor: pointer; margin-top: auto; }
+  .botao { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; border: 0; border-radius: 8px; background: var(--verde); box-shadow: 0 4px 0 var(--verde-sombra); color: #1f1606; font: inherit; font-size: 17px; font-weight: 800; text-decoration: none; cursor: pointer; margin-top: auto; }
   .botao:hover { background: var(--verde-claro); }
   .botao:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--verde-sombra); }
   .botao:focus-visible, .link:focus-visible, .voltar:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-  .botao.cinza { background: #4b4844; box-shadow: 0 4px 0 #2f2d2a; }
-  .botao.cinza:hover { background: #5b5853; }
+  .botao.cinza { background: #314437; box-shadow: 0 4px 0 #0f1813; color: #eaf0e6; }
+  .botao.cinza:hover { background: #3c5244; }
   .botao svg { width: 20px; height: 20px; }
   .nota { padding: 10px 12px; border-radius: 6px; background: rgba(255,255,255,.05); color: var(--suave); font-size: 13.5px; }
   .link { background: none; border: 0; padding: 0; color: var(--verde-claro); font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
