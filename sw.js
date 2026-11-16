@@ -1,7 +1,7 @@
 // Capivara: guarda o site no aparelho para o app abrir rápido e funcionar sem internet.
 // Sempre tenta a versão nova da internet primeiro; sem internet, usa a guardada.
-const VERSAO = 'capivara-app-2';
-const BASE = ['./', './index.html', './app.html', './en.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
+const VERSAO = 'capivara-app-1';
+const BASE = ['./', './index.html', './en.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSAO).then((c) => Promise.all(BASE.map((u) => c.add(u).catch(() => {})))));
