@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#202b24">
+<title>Capivara Studio — Biblioteca (prévia)</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#202b24;--bar:#171f1a;--bar2:#1c261f;--panel:#202c24;
+  --panel-hover:#26352b;--line:#39473d;--line-soft:#303d34;
+  --text:#e8eee7;--muted:#aab6aa;--soft:#849286;--faint:#66776b;
+  --accent:#d5a064;--accent-2:#efbd7f;--sage:#9fc7a7;--sage-2:#c1dec4;
+  --cream:#e9e0ce;--shadow:0 16px 38px #0005;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px}
+body{min-width:320px}
+button,input,textarea{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+button{color:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+[hidden]{display:none!important}
+.topbar{height:42px;background:var(--bar);border-bottom:1px solid #354139;display:flex;align-items:center;padding:0 18px;gap:22px;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:8px;white-space:nowrap;font-weight:750;font-size:14px;letter-spacing:-.02em}
+.brand-mark{width:22px;height:25px;display:grid;place-items:center;color:#d8b58a}
+.brand-mark svg{width:23px;height:25px;display:block}
+.brand small{font-size:8px;color:#99a69a;letter-spacing:.23em;display:block;font-weight:650;margin-top:-2px}
+.main-nav{display:flex;height:42px;align-items:stretch;gap:2px;flex:1;min-width:0}
+.main-nav a{display:flex;align-items:center;gap:7px;padding:0 12px;color:#bdc7bd;font-size:11.5px;font-weight:620;border-bottom:2px solid transparent;white-space:nowrap}
+.main-nav a:hover{background:#ffffff08;color:#fff}
+.main-nav a.active{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-icon{font-size:14px;line-height:1;opacity:.92}
+.top-right{display:flex;align-items:center;gap:15px;margin-left:auto;white-space:nowrap}
+.top-link{display:flex;align-items:center;gap:5px;border:0;background:transparent;color:#aeb9b0;font-size:10.5px;padding:5px 0}
+.top-link:hover{color:#fff}
+.top-link svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.7}
+.top-link .chev{font-size:9px;color:#79877d}
+.user-dot{width:23px;height:23px;display:grid;place-items:center;border:1px solid #66756a;border-radius:50%;font-size:11px}
+.mobile-menu{display:none}
+.subbar{height:37px;background:var(--bar2);border-bottom:1px solid #3b4940;display:flex;align-items:stretch;padding:0 max(18px,calc((100vw - 1110px)/2))}
+.subtab{padding:0 11px;border:0;border-bottom:2px solid transparent;background:transparent;color:#aebbaf;font-size:11.5px}
+.subtab:hover{color:#fff}
+.subtab.active{color:#edf4ec;border-bottom-color:var(--sage);font-weight:700}
+.workspace{width:min(1096px,calc(100% - 48px));margin:0 auto;padding:58px 0 72px}
+.page-head{margin-bottom:12px}
+.page-title{font:500 38px/1.08 Georgia,"Times New Roman",serif;color:#eee6d7;letter-spacing:-.04em;margin:0 0 10px}
+.page-subtitle{color:#bac5ba;font-size:11.5px;margin:0 0 9px}
+.head-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.btn{height:31px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #48574b;border-radius:6px;background:#25332a;color:#e7eee6;font-size:10.5px;font-weight:680;transition:background .15s,border-color .15s,transform .15s}
+.btn:hover{background:#304136;border-color:#6c806e}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:#e8e0cf;border-color:#e8e0cf;color:#222b24}
+.btn.primary:hover{background:#f4ecdc;border-color:#f4ecdc}
+.btn.ghost{background:transparent}
+.btn .icon{font-size:14px;line-height:1}
+.quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
+.quick-card{min-height:61px;padding:10px 13px;border:1px solid #3e4d42;border-radius:9px;background:#202c24;display:flex;align-items:center;gap:11px;transition:background .15s,border-color .15s,transform .15s}
+.quick-card:hover{background:#26352b;border-color:#647565;transform:translateY(-1px)}
+.quick-icon{width:22px;height:22px;display:grid;place-items:center;color:var(--sage);font-size:18px;flex:none}
+.quick-copy{min-width:0}
+.quick-copy strong{display:block;font-size:11.5px;font-weight:740;line-height:1.25;margin-bottom:3px}
+.quick-copy small{font-size:10px;color:#b1beb2;line-height:1.3;display:block}
+.quick-arrow{margin-left:auto;color:#aab6a9;font-size:15px}
+.utility-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:20px 0 0;padding-bottom:16px;border-bottom:1px solid #3b4940}
+.more-button{display:flex;align-items:center;gap:7px;padding:0;border:0;background:transparent;color:#d8e0d7;font-size:12px;font-weight:650}
+.more-button:hover{color:#fff}
+.more-chevron{font-size:10px;color:#c4d0c4;transition:transform .15s}
+.more-button[aria-expanded="true"] .more-chevron{transform:rotate(90deg)}
+.search-wrap{position:relative;width:220px;max-width:45vw}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:#94a296;fill:none;stroke-width:1.7;pointer-events:none}
+.search{width:100%;height:32px;border:1px solid #3d4b41;border-radius:6px;background:#1a251e;color:#e8eee6;padding:0 10px 0 30px;font-size:10.5px}
+.search::placeholder{color:#78877b}
+.search:focus{border-color:#8eaa91;outline:none}
+.more-panel{display:flex;gap:7px;flex-wrap:wrap;padding:11px 0 0}
+.section-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:31px 0 13px}
+.section-row h2{font-size:11.5px;font-weight:730;margin:0;color:#e3e9e2}
+.section-row small{font-size:9.5px;color:#869489}
+.book-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.book-card{min-height:116px;border:1px solid #3b4a3f;border-radius:9px;background:#222f27;display:flex;align-items:center;gap:11px;padding:12px 13px;position:relative;transition:border-color .16s,background .16s,transform .16s;min-width:0}
+.book-card:hover{border-color:#7c8e78;background:#27362c;transform:translateY(-1px)}
+.book-card.selected{border-color:#b28e60}
+.cover{width:45px;height:61px;flex:none;border-radius:4px;overflow:hidden;position:relative;display:grid;place-items:center;box-shadow:2px 2px 7px #0005;border:1px solid #53684f;background:linear-gradient(145deg,#284b3c,#15271e)}
+.cover::before{content:"";position:absolute;inset:5px;border:1px solid #c8d7bd65}
+.cover::after{content:"";position:absolute;width:34px;height:1px;background:#d9c38d88;bottom:10px}
+.cover .cover-mark{position:relative;z-index:1;font:25px Georgia,serif;color:#e3d4b2;text-shadow:0 2px 4px #0008}
+.cover.ochre{background:linear-gradient(145deg,#715534,#30281e);border-color:#9a8056}
+.cover.blue{background:linear-gradient(145deg,#35545a,#172c31);border-color:#607d7d}
+.cover.plum{background:linear-gradient(145deg,#54455e,#292337);border-color:#786b8a}
+.cover.sage{background:linear-gradient(145deg,#4b654c,#23382b);border-color:#799476}
+.cover.rust{background:linear-gradient(145deg,#744b3d,#38271f);border-color:#9b6d57}
+.cover.ivory{background:linear-gradient(145deg,#d6ceb9,#8e8a78);border-color:#c8c0aa}
+.cover.ivory .cover-mark{color:#39483e;text-shadow:none}
+.cover-copy{position:absolute;left:6px;right:6px;bottom:17px;text-align:center;color:#f3e6c9;font-size:4.4px;line-height:1.15;font-weight:800;z-index:1;text-transform:uppercase;letter-spacing:.04em}
+.cover.ivory .cover-copy{color:#354339}
+.book-info{min-width:0;flex:1;align-self:center}
+.book-kicker{font-size:8.5px;font-weight:700;color:#d9a46b;margin-bottom:3px;line-height:1.2}
+.book-title{font-size:10.5px;line-height:1.28;font-weight:740;color:#f1f4ef;margin:0 0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.book-desc{font-size:9.5px;line-height:1.42;color:#b2c0b4;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-open{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:14px;color:#d2dbd1;border:0;background:transparent;padding:4px}
+.card-open:hover{color:var(--accent-2)}
+.book-card.has-open .book-info{padding-right:15px}
+.book-card .card-meta{display:none}
+.empty-state{grid-column:1/-1;border:1px dashed #536556;border-radius:9px;padding:28px;text-align:center;background:#ffffff04;color:#b9c5b9}
+.empty-state strong{display:block;color:#edf1e9;font-size:12px;margin:7px 0 4px}
+.empty-state p{font-size:10px;margin:0 0 12px}
+.base-list{display:grid;gap:7px}
+.base-row{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 12px;border:1px solid #3c4b40;background:#222f27;border-radius:8px}
+.base-piece{width:30px;height:30px;border-radius:6px;background:#2d4033;color:var(--sage);display:grid;place-items:center;font-size:16px}
+.base-name{font-size:10.5px;font-weight:700;color:#f0f3ed;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.base-meta{font-size:9px;color:#a7b5a9;margin-top:3px}
+.base-actions{display:flex;gap:6px}
+.modal{width:min(520px,calc(100% - 28px));border:1px solid #526454;border-radius:11px;background:#222f27;color:#e8eee7;padding:0;box-shadow:var(--shadow)}
+.modal::backdrop{background:#07100bba;backdrop-filter:blur(3px)}
+.modal-head{padding:17px 19px 12px;border-bottom:1px solid #3b4a3f}
+.modal-head h2{font:500 23px Georgia,serif;color:#eee4d2;margin:0 0 4px}
+.modal-head p{margin:0;color:#aebcae;font-size:10.5px}
+.modal-body{padding:15px 19px 18px;display:grid;gap:11px}
+.field{display:grid;gap:5px}
+.field label{font-size:9.5px;color:#c2cec2;font-weight:700}
+.field input,.field textarea{width:100%;border:1px solid #3d4c41;border-radius:6px;background:#19251e;color:#edf2eb;padding:9px 10px;font-size:10.5px}
+.field textarea{min-height:86px;resize:vertical;font-family:ui-monospace,Consolas,monospace}
+.modal-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:2px}
+.toast{position:fixed;right:18px;bottom:18px;z-index:50;padding:10px 14px;border:1px solid #617663;background:#293b2e;border-radius:7px;color:#eef4eb;box-shadow:var(--shadow);font-size:10.5px;opacity:0;transform:translateY(7px);transition:.18s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+.footer-note{color:#819084;font-size:9px;margin:28px 0 0}
+@media(max-width:850px){.topbar{gap:12px;padding:0 12px}.main-nav a{padding:0 8px;font-size:10px}.top-right{gap:9px}.workspace{width:calc(100% - 36px);padding-top:42px}.book-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.topbar{height:auto;min-height:43px;flex-wrap:wrap;padding:8px 11px 0;gap:4px}.brand{height:26px}.main-nav{order:3;width:100%;height:36px;overflow-x:auto;flex:none}.main-nav a{padding:0 10px}.top-right{margin-left:auto}.top-right .hide-mobile{display:none}.subbar{padding:0 12px}.workspace{width:calc(100% - 26px);padding-top:32px}.page-title{font-size:34px}.page-subtitle{font-size:10.5px}.quick-grid{grid-template-columns:1fr;gap:7px;margin-top:13px}.quick-card{min-height:57px}.utility-row{align-items:flex-start;flex-direction:column;gap:10px}.search-wrap{width:100%;max-width:none}.book-grid{grid-template-columns:1fr}.book-card{min-height:103px}.section-row{margin-top:25px}.base-row{grid-template-columns:30px minmax(0,1fr)}.base-actions{grid-column:2}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index-preview.html" aria-label="Capivara Studio">
+    <span class="brand-mark"><svg viewBox="0 0 32 34" aria-hidden="true"><path d="M8 26c1-3 1-7 0-10-1-4 1-8 5-9 4-1 8 1 9 5l4 5-3 1-2 8H8Z" fill="#bd8b59"/><path d="M12 7 10 2l6 3M21 9l4-4 1 7" fill="#d6b58d"/><circle cx="18.5" cy="12.5" r="1" fill="#211d18"/><path d="M10 25h14" stroke="#6b4a2d" stroke-width="2" stroke-linecap="round"/></svg></span>
+    <span>Capivara<small>STUDIO</small></span>
+  </a>
+  <nav class="main-nav" aria-label="Navegação principal">
+    <a class="active" href="#biblioteca" data-main="biblioteca"><span class="nav-icon">▥</span> Biblioteca</a>
+    <a href="./index.html?studio=analisar" data-main="analisar"><span class="nav-icon">◉</span> Analisar</a>
+    <a href="./index.html?studio=treinar" data-main="treinar"><span class="nav-icon">♧</span> Treinar</a>
+    <a href="./index.html?studio=jogar" data-main="jogar"><span class="nav-icon">♜</span> Jogar</a>
+  </nav>
+  <div class="top-right">
+    <button class="top-link" id="account-button" title="Perfil"><span class="user-dot">♙</span></button>
+    <button class="top-link" id="help-button"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2"/><path d="M6.4 6a1.7 1.7 0 1 1 2.8 1.3c-.8.6-1.2.9-1.2 2"/><path d="M8 11.5v.1"/></svg> Ajuda <span class="chev">⌄</span></button>
+    <button class="top-link hide-mobile" id="archive-button"><svg viewBox="0 0 16 16"><path d="M2 4.2h4l1.3 1.4H14v7.2H2z"/><path d="M2 3h4l1 1.2"/></svg> Arquivo <span class="chev">⌄</span></button>
+    <button class="top-link hide-mobile" id="options-button"><svg viewBox="0 0 16 16"><path d="M2 4h12M2 8h12M2 12h12"/><circle cx="5" cy="4" r="1.5" fill="#1c261f"/><circle cx="10" cy="8" r="1.5" fill="#1c261f"/><circle cx="7" cy="12" r="1.5" fill="#1c261f"/></svg> Opções <span class="chev">⌄</span></button>
+  </div>
+</header>
+
+<div class="subbar" role="tablist" aria-label="Biblioteca">
+  <button class="subtab active" role="tab" aria-selected="true" data-view="books">Livros</button>
+  <button class="subtab" role="tab" aria-selected="false" data-view="bases">Bases</button>
+</div>
+
+<main class="workspace" id="biblioteca">
+  <section id="books-view">
+    <header class="page-head">
+      <h1 class="page-title">Biblioteca</h1>
+      <p class="page-subtitle">Leia livros de xadrez, estude suas partidas, treine ou jogue contra o computador.</p>
+      <div class="head-actions">
+        <button class="btn" id="open-file"><span class="icon">⇧</span> Abrir arquivo</button>
+        <button class="btn" id="sample-book"><span class="icon">◫</span> Experimentar um estudo</button>
+        <button class="btn" id="first-steps"><span class="icon">ⓘ</span> Primeiros passos</button>
+      </div>
+    </header>
+
+    <div class="quick-grid">
+      <a class="quick-card" href="./index.html?studio=analisar">
+        <span class="quick-icon">⌕</span><span class="quick-copy"><strong>Analisar uma posição</strong><small>Veja sugestões do Stockfish no tabuleiro</small></span><span class="quick-arrow">↗</span>
+      </a>
+      <a class="quick-card" href="./index.html?studio=treinar">
+        <span class="quick-icon">♧</span><span class="quick-copy"><strong>Treinar xadrez</strong><small>Pratique tática, finais ou suas aberturas</small></span><span class="quick-arrow">↗</span>
+      </a>
+      <a class="quick-card" href="./index.html?studio=jogar">
+        <span class="quick-icon">♜</span><span class="quick-copy"><strong>Jogar contra o computador</strong><small>Comece uma partida no nível que preferir</small></span><span class="quick-arrow">↗</span>
+      </a>
+    </div>
+
+    <div class="utility-row">
+      <button class="more-button" id="more-button" aria-expanded="false"><span class="more-chevron">▸</span> Mais ações da biblioteca</button>
+      <label class="search-wrap"><svg viewBox="0 0 16 16"><circle cx="6.8" cy="6.8" r="4.6"/><path d="m10.2 10.2 3.6 3.6"/></svg><input class="search" id="book-search" type="search" placeholder="Buscar livros e partidas..." aria-label="Buscar livros e partidas"></label>
+    </div>
+    <div class="more-panel" id="more-panel" hidden>
+      <button class="btn" id="add-book">＋ Adicionar livro à coleção</button>
+      <button class="btn" id="new-study">＋ Criar estudo</button>
+      <button class="btn" id="show-bases">▤ Abrir bases de partidas</button>
+      <button class="btn" id="export-data">⇩ Exportar meus dados</button>
+    </div>
+
+    <div class="section-row"><h2>Livros para explorar</h2><small id="book-count">9 materiais</small></div>
+    <div class="book-grid" id="book-grid"></div>
+    <p class="footer-note">Materiais demonstrativos para visualizar a biblioteca. Os livros não estão incluídos; você pode cadastrar suas próprias referências e estudos.</p>
+  </section>
+
+  <section id="bases-view" hidden>
+    <header class="page-head">
+      <h1 class="page-title">Bases de partidas</h1>
+      <p class="page-subtitle">Importe, organize e pesquise partidas em formato PGN. Abra qualquer jogo no analisador com um clique.</p>
+      <div class="head-actions">
+        <button class="btn primary" id="import-pgn"><span class="icon">⇧</span> Importar arquivo PGN</button>
+        <button class="btn" id="export-pgn"><span class="icon">⇩</span> Exportar base</button>
+      </div>
+    </header>
+    <div class="quick-grid">
+      <div class="quick-card"><span class="quick-icon">♟</span><span class="quick-copy"><strong id="game-total">0 partidas</strong><small>Salvas neste navegador</small></span></div>
+      <div class="quick-card"><span class="quick-icon">⌕</span><span class="quick-copy"><strong>Pesquisa rápida</strong><small>Filtre por jogador, evento ou data</small></span></div>
+      <div class="quick-card"><span class="quick-icon">↗</span><span class="quick-copy"><strong>Análise integrada</strong><small>Envie qualquer partida ao tabuleiro</small></span></div>
+    </div>
+    <div class="utility-row">
+      <span class="more-button">Partidas importadas</span>
+      <label class="search-wrap"><svg viewBox="0 0 16 16"><circle cx="6.8" cy="6.8" r="4.6"/><path d="m10.2 10.2 3.6 3.6"/></svg><input class="search" id="game-search" type="search" placeholder="Buscar jogador, evento ou data..." aria-label="Buscar partidas"></label>
+    </div>
+    <div class="section-row"><h2>Sua coleção</h2><small id="game-count">0 partidas</small></div>
+    <div id="game-list" class="base-list"></div>
+  </section>
+</main>
+
+<input type="file" id="file-input" accept=".pgn,.txt,text/plain" hidden>
+<dialog class="modal" id="study-dialog">
+  <form id="study-form">
+    <div class="modal-head"><h2>Novo estudo</h2><p>Crie um espaço para guardar uma abertura, uma posição ou uma partida comentada.</p></div>
+    <div class="modal-body">
+      <div class="field"><label for="study-name">Nome do estudo</label><input id="study-name" required maxlength="90" placeholder="Ex.: Defesa Caro-Kann — ideias principais"></div>
+      <div class="field"><label for="study-description">Descrição</label><textarea id="study-description" maxlength="600" placeholder="O que você quer aprender?"></textarea></div>
+      <div class="field"><label for="study-pgn">PGN (opcional)</label><textarea id="study-pgn" placeholder='[Event "Meu estudo"]&#10;1. e4 e5 2. Nf3 Nc6'></textarea></div>
+      <div class="modal-actions"><button class="btn ghost" type="button" data-close="study-dialog">Cancelar</button><button class="btn primary" type="submit">Salvar estudo</button></div>
+    </div>
+  </form>
+</dialog>
+<dialog class="modal" id="book-dialog">
+  <form id="book-form">
+    <div class="modal-head"><h2>Adicionar à coleção</h2><p>Cadastre uma referência de livro que você possui ou tem autorização para usar.</p></div>
+    <div class="modal-body">
+      <div class="field"><label for="book-name">Título</label><input id="book-name" required maxlength="100" placeholder="Nome do livro"></div>
+      <div class="field"><label for="book-author">Autor</label><input id="book-author" maxlength="90" placeholder="Autor"></div>
+      <div class="field"><label for="book-notes">Notas pessoais</label><textarea id="book-notes" maxlength="600" placeholder="Capítulos, páginas ou ideias para revisar"></textarea></div>
+      <div class="modal-actions"><button class="btn ghost" type="button" data-close="book-dialog">Cancelar</button><button class="btn primary" type="submit">Adicionar referência</button></div>
+    </div>
+  </form>
+</dialog>
+<dialog class="modal" id="detail-dialog">
+  <div class="modal-head"><h2 id="detail-title">Detalhes</h2><p id="detail-subtitle"></p></div>
+  <div class="modal-body"><p id="detail-description" style="color:#b8c5b9;font-size:11px;margin:0"></p><div class="modal-actions"><button class="btn ghost" type="button" data-close="detail-dialog">Fechar</button><button class="btn primary" type="button" id="detail-use">Usar como modelo</button></div></div>
+</dialog>
+<dialog class="modal" id="help-dialog">
+  <div class="modal-head"><h2>Primeiros passos</h2><p>Como usar esta prévia da biblioteca.</p></div>
+  <div class="modal-body">
+    <p style="margin:0;color:#bbc7bb;font-size:11px">Use <b>Livros</b> para ver referências e estudos. Em <b>Bases</b>, importe arquivos PGN para pesquisar e abrir partidas no analisador. O botão “Mais ações” mostra opções adicionais. Os registros desta demonstração ficam salvos localmente neste navegador.</p>
+    <div class="modal-actions"><button class="btn primary" type="button" data-close="help-dialog">Entendi</button></div>
+  </div>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+const KEY_BOOKS="capivara-studio-preview-books-v1";
+const KEY_GAMES="capivara-studio-preview-games-v1";
+const KEY_HANDOFF="capivara-studio-open-pgn";
+const $=id=>document.getElementById(id);
+const escapeHTML=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const read=k=>{try{const x=JSON.parse(localStorage.getItem(k)||"[]");return Array.isArray(x)?x:[]}catch{return[]}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch{notify("O armazenamento do navegador está cheio. Exporte seus dados antes de continuar.");return false}};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+let currentView="books",selectedMaterial=null,toastTimer;
+const demoMaterials=[
+ {id:"m1",kind:"course",tone:"sage",symbol:"♘",kicker:"Curso de iniciação",title:"Primeiros passos no xadrez",description:"Aprenda os fundamentos, desenvolva suas peças e reconheça os primeiros padrões táticos.",detail:"Um roteiro para quem está construindo uma base sólida: princípios de abertura, segurança do rei, atividade das peças e padrões táticos simples."},
+ {id:"m2",kind:"repertoire",tone:"blue",symbol:"♙",kicker:"Treino de aberturas",title:"Repertório aberto — 1. e4",description:"Ideias para as respostas mais comuns, planos típicos e posições-modelo para revisar.",detail:"Uma estrutura demonstrativa para organizar respostas a 1...e5, Siciliana, Francesa e Caro-Kann. Adicione suas próprias variantes."},
+ {id:"m3",kind:"tactics",tone:"plum",symbol:"✦",kicker:"Curso de tática",title:"Tática por padrões",description:"Garfo, cravada, ataque descoberto e outros temas para reconhecer no tabuleiro.",detail:"Coleção demonstrativa de temas táticos. Você pode criar seus próprios exercícios a partir de partidas importadas."},
+ {id:"m4",kind:"book",tone:"ochre",symbol:"♟",kicker:"Livro de referência",title:"Estruturas de peões",description:"Planos, casas fortes, rupturas e estruturas típicas explicadas com exemplos.",detail:"Referência de estudo sobre estruturas de peões. Use este modelo para registrar capítulos, páginas e suas próprias observações."},
+ {id:"m5",kind:"training",tone:"ivory",symbol:"♧",kicker:"Treino de coordenação",title:"Geometria antes do golpe",description:"Encontre peças indefesas, linhas abertas e combinações antes de calcular.",detail:"Exercícios de coordenação: sobrecarga, alinhamento, peças indefesas e remoção do defensor."},
+ {id:"m6",kind:"course",tone:"rust",symbol:"♙",kicker:"Curso introdutório",title:"Peões, planos e combinações",description:"Estruturas centrais, decisões de meio-jogo e transições para finais.",detail:"Um guia para relacionar estrutura de peões, plano estratégico e cálculo tático."},
+ {id:"m7",kind:"guide",tone:"blue",symbol:"▤",kicker:"Guia de estudo",title:"Como revisar uma partida",description:"Um método para encontrar momentos críticos e transformar erros em aprendizado.",detail:"Passo a passo para revisar primeiro sem motor, marcar momentos críticos e só então comparar suas ideias com a análise."},
+ {id:"m8",kind:"repertoire",tone:"sage",symbol:"♜",kicker:"Repertório",title:"Defesa Caro-Kann",description:"Planos típicos, estruturas recorrentes e partidas-modelo para as pretas.",detail:"Modelo de repertório para agrupar linhas principais, alternativas e partidas de referência da Defesa Caro-Kann."},
+ {id:"m9",kind:"lab",tone:"plum",symbol:"✧",kicker:"Modelo multimídia",title:"Laboratório de estudos",description:"Um espaço para organizar posições, variantes, anotações e exercícios.",detail:"Modelo de estudo livre. Use-o para organizar capítulos e posições importantes com comentários."}
+];
+function notify(message){const t=$("toast");t.textContent=message;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2800)}
+function showDialog(id){$(id).showModal()}
+function closeDialog(id){$(id).close()}
+function switchView(name){
+ currentView=name;
+ $("books-view").hidden=name!=="books";$("bases-view").hidden=name!=="bases";
+ document.querySelectorAll("[data-view]").forEach(b=>{const active=b.dataset.view===name;b.classList.toggle("active",active);b.setAttribute("aria-selected",active?"true":"false")});
+ if(name==="bases")renderGames();else renderBooks();
+}
+function coverHTML(item){return '<div class="cover '+escapeHTML(item.tone)+'"><span class="cover-mark">'+escapeHTML(item.symbol)+'</span><span class="cover-copy">'+escapeHTML(item.kicker)+'</span></div>'}
+function materialCard(item){
+ const saved=item.userCreated===true;
+ return '<article class="book-card '+(saved?'selected':'')+'">'+coverHTML(item)+'<div class="book-info"><div class="book-kicker">'+escapeHTML(item.kicker)+'</div><h3 class="book-title">'+escapeHTML(item.title)+'</h3><p class="book-desc">'+escapeHTML(item.description||"Estudo salvo na sua biblioteca.")+'</p></div><button class="card-open" type="button" data-open-material="'+escapeHTML(item.id)+'" aria-label="Abrir '+escapeHTML(item.title)+'">↗</button></article>';
+}
+function renderBooks(){
+ const query=$("book-search").value.trim().toLocaleLowerCase("pt-BR");
+ const user=read(KEY_BOOKS).map(x=>({...x,userCreated:true,tone:x.tone||"sage",symbol:x.kind==="book"?"▤":"♟",kicker:x.kind==="book"?"Referência pessoal":"Estudo pessoal"}));
+ const all=[...user,...demoMaterials];
+ const shown=all.filter(x=>(x.title+" "+x.description+" "+x.kicker).toLocaleLowerCase("pt-BR").includes(query));
+ $("book-count").textContent=shown.length+" materiais";
+ $("book-grid").innerHTML=shown.length?shown.map(materialCard).join(""):'<div class="empty-state"><strong>Nenhum material encontrado</strong><p>Tente outra busca ou crie seu primeiro estudo.</p><button class="btn primary" type="button" data-new-study>＋ Criar estudo</button></div>';
+}
+function parsePgn(raw){
+ const clean=raw.replace(/^\uFEFF/,"").trim();if(!clean)return[];
+ const starts=[...clean.matchAll(/^\[Event\s+"/gm)].map(x=>x.index);
+ const chunks=starts.length>1?starts.map((n,i)=>clean.slice(n,starts[i+1]??clean.length).trim()):[clean];
+ return chunks.map(chunk=>{
+  const tags={};for(const m of chunk.matchAll(/^\[([A-Za-z0-9_]+)\s+"((?:\\.|[^"])*)"\]\s*$/gm))tags[m[1]]=m[2].replace(/\\"/g,'"');
+  const moves=chunk.replace(/^\[[^\]]+\]\s*/gm," ").replace(/\{[^}]*\}/g," ").replace(/;[^\r\n]*/g," ").replace(/\([^()]*\)/g," ").replace(/\$\d+/g," ").replace(/\d+\.(\.\.)?/g," ").replace(/\s+/g," ").trim();
+  const tokens=moves.split(/\s+/).filter(x=>x&&!/^(1-0|0-1|1\/2-1\/2|\*)$/.test(x));
+  return{id:uid(),event:tags.Event||"Partida importada",white:tags.White||"Brancas",black:tags.Black||"Pretas",date:tags.Date||"",result:tags.Result||"*",movesCount:tokens.length,raw:chunk.slice(0,60000)};
+ }).filter(g=>g.movesCount>0);
+}
+function renderGames(){
+ const games=read(KEY_GAMES),q=$("game-search").value.trim().toLocaleLowerCase("pt-BR");
+ const shown=games.filter(g=>(g.white+" "+g.black+" "+g.event+" "+g.date).toLocaleLowerCase("pt-BR").includes(q));
+ $("game-total").textContent=games.length+" "+(games.length===1?"partida":"partidas");
+ $("game-count").textContent=shown.length+" de "+games.length+" partidas";
+ $("game-list").innerHTML=shown.length?shown.map(g=>'<article class="base-row"><span class="base-piece">♟</span><div><div class="base-name">'+escapeHTML(g.white+" × "+g.black)+'</div><div class="base-meta">'+escapeHTML(g.event)+" · "+escapeHTML(g.date||"Data desconhecida")+" · "+escapeHTML(g.result)+" · "+g.movesCount+" lances"+'</div></div><div class="base-actions"><button class="btn" type="button" data-analyze-game="'+escapeHTML(g.id)+'">Analisar ↗</button><button class="btn ghost" type="button" data-remove-game="'+escapeHTML(g.id)+'">×</button></div></article>').join(""):'<div class="empty-state"><strong>'+(games.length?"Nenhuma partida encontrada":"Sua base ainda está vazia")+'</strong><p>Importe um arquivo PGN para começar a montar sua coleção.</p><button class="btn primary" type="button" data-import-again>⇧ Importar PGN</button></div>';
+}
+function openInAnalyzer(pgn){
+ try{localStorage.setItem(KEY_HANDOFF,pgn);location.href="./index.html?studio=pgn"}catch{notify("Não consegui preparar a partida para o analisador.")}
+}
+function importFile(file){
+ if(!file)return;
+ if(file.size>2*1024*1024){notify("O arquivo passa de 2 MB. Divida a base antes de importar.");return}
+ file.text().then(text=>{
+  const games=parsePgn(text);if(!games.length){notify("Não encontrei partidas PGN válidas nesse arquivo.");return}
+  const old=read(KEY_GAMES),known=new Set(old.map(g=>g.raw));const fresh=games.filter(g=>!known.has(g.raw));
+  if(!fresh.length){notify("Essas partidas já estão na sua base.");return}
+  if(save(KEY_GAMES,[...fresh,...old].slice(0,500))){switchView("bases");notify(fresh.length+" partida(s) importada(s).")}
+ }).catch(()=>notify("Não foi possível ler este arquivo."));
+}
+function exportPgn(){
+ const games=read(KEY_GAMES);if(!games.length){notify("Sua base ainda está vazia.");return}
+ const blob=new Blob([games.map(g=>g.raw).join("\n\n")+"\n"],{type:"application/x-chess-pgn;charset=utf-8"});
+ download(blob,"capivara-base.pgn");
+}
+function download(blob,name){
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function openMaterial(id){
+ const user=read(KEY_BOOKS).find(x=>x.id===id);
+ const item=user||demoMaterials.find(x=>x.id===id);if(!item)return;
+ selectedMaterial=item;
+ $("detail-title").textContent=item.title;
+ $("detail-subtitle").textContent=item.kicker||"Material da biblioteca";
+ $("detail-description").textContent=item.description||item.notes||item.detail||"";
+ $("detail-use").textContent=item.userCreated?"Abrir no analisador":"Criar estudo com este modelo";
+ $("detail-use").dataset.materialId=item.id;
+ showDialog("detail-dialog");
+}
+$("detail-use").addEventListener("click",()=>{
+ const item=selectedMaterial;if(!item)return;
+ closeDialog("detail-dialog");
+ if(item.pgn){openInAnalyzer(item.pgn);return}
+ $("study-name").value=item.title;
+ $("study-description").value=item.description||item.detail||"";
+ showDialog("study-dialog");
+});
+$("more-button").addEventListener("click",()=>{
+ const panel=$("more-panel"),open=panel.hidden;panel.hidden=!open;$("more-button").setAttribute("aria-expanded",String(open));$("more-button").querySelector(".more-chevron").textContent=open?"▾":"▸";
+});
+$("book-search").addEventListener("input",renderBooks);
+$("game-search").addEventListener("input",renderGames);
+document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>switchView(b.dataset.view)));
+$("open-file").addEventListener("click",()=>$("file-input").click());
+$("import-pgn").addEventListener("click",()=>$("file-input").click());
+$("file-input").addEventListener("change",e=>{importFile(e.target.files?.[0]);e.target.value=""});
+$("export-pgn").addEventListener("click",exportPgn);
+$("show-bases").addEventListener("click",()=>switchView("bases"));
+$("new-study").addEventListener("click",()=>showDialog("study-dialog"));
+$("add-book").addEventListener("click",()=>showDialog("book-dialog"));
+$("export-data").addEventListener("click",()=>{
+ const data={books:read(KEY_BOOKS),games:read(KEY_GAMES),exportedAt:new Date().toISOString()};
+ download(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),"capivara-studio-backup.json");
+});
+$("first-steps").addEventListener("click",()=>showDialog("help-dialog"));
+$("help-button").addEventListener("click",()=>showDialog("help-dialog"));
+$("archive-button").addEventListener("click",()=>showDialog("help-dialog"));
+$("options-button").addEventListener("click",()=>notify("Opções de visualização serão configuradas nesta área."));
+$("account-button").addEventListener("click",()=>notify("Perfil demonstrativo — a conta não faz parte desta prévia."));
+$("sample-book").addEventListener("click",()=>openMaterial("m2"));
+$("study-form").addEventListener("submit",e=>{
+ e.preventDefault();const title=$("study-name").value.trim();if(!title)return;
+ const items=read(KEY_BOOKS);items.unshift({id:uid(),kind:"study",title,description:$("study-description").value.trim(),pgn:$("study-pgn").value.trim(),createdAt:new Date().toISOString()});
+ if(!save(KEY_BOOKS,items))return;
+ $("study-form").reset();closeDialog("study-dialog");renderBooks();notify("Estudo salvo na sua biblioteca.");
+});
+$("book-form").addEventListener("submit",e=>{
+ e.preventDefault();const title=$("book-name").value.trim();if(!title)return;
+ const items=read(KEY_BOOKS);items.unshift({id:uid(),kind:"book",title,author:$("book-author").value.trim(),description:$("book-notes").value.trim(),createdAt:new Date().toISOString()});
+ if(!save(KEY_BOOKS,items))return;
+ $("book-form").reset();closeDialog("book-dialog");renderBooks();notify("Referência adicionada à coleção.");
+});
+document.addEventListener("click",e=>{
+ const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.close)$(b.dataset.close).close();
+ if(b.dataset.openMaterial)openMaterial(b.dataset.openMaterial);
+ if(b.dataset.newStudy)showDialog("study-dialog");
+ if(b.dataset.importAgain)$("file-input").click();
+ if(b.dataset.analyzeGame){const g=read(KEY_GAMES).find(x=>x.id===b.dataset.analyzeGame);if(g)openInAnalyzer(g.raw)}
+ if(b.dataset.removeGame){if(confirm("Remover esta partida da sua base?")){save(KEY_GAMES,read(KEY_GAMES).filter(x=>x.id!==b.dataset.removeGame));renderGames()}}
+});
+document.querySelectorAll(".main-nav a[data-main]").forEach(a=>{
+ a.addEventListener("click",e=>{
+  if(a.dataset.main==="biblioteca"){e.preventDefault();switchView("books");window.scrollTo({top:0,behavior:"smooth"})}
+ });
+});
+renderBooks();renderGames();
+})();
+</script>
+</body>
+</html>
